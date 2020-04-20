@@ -19,15 +19,9 @@ func main() {
 	}
 
 	r := chi.NewRouter()
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("start default router")
+	r.Get("/", rootHandler)
 
-		fmt.Printf("request: %#v\n", r)
-		fmt.Println("url:", r.URL.String())
-
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprintln(w, "New changes coming to server!")
-	})
+	r.Post("/", hookHandler)
 
 	srv := &http.Server{Addr: ":" + port, Handler: r}
 	go func() {
@@ -45,4 +39,24 @@ func main() {
 
 	srv.Shutdown(ctx)
 	cancel()
+}
+
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("start default router")
+
+	fmt.Printf("get request: %#v\n", r)
+	fmt.Println("method:", r.Method)
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintln(w, "New changes coming to server!")
+}
+
+func hookHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("start hook router")
+
+	fmt.Printf("post request: %#v\n", r)
+	fmt.Println("method:", r.Method)
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"result":"hook handler done"}`))
 }
