@@ -26,7 +26,7 @@ func main() {
 		fmt.Println("url:", r.URL.String())
 
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintln(w, "Hello from Igor!")
+		fmt.Fprintln(w, "New changes coming to server!")
 	})
 
 	srv := &http.Server{Addr: ":" + port, Handler: r}
