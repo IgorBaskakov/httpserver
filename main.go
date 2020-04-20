@@ -24,7 +24,6 @@ func main() {
 
 	r := chi.NewRouter()
 	r.Get("/", rootHandler)
-
 	r.Post("/", hookHandler)
 
 	srv := &http.Server{Addr: ":" + port, Handler: r}
@@ -99,13 +98,17 @@ func hookHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("Content-Type", "application/json")
 
+	res := []byte("hook ok")
 	w.WriteHeader(http.StatusOK)
-	res, err := json.Marshal(commits)
-	if err != nil {
-		log.Printf("marshal result data error: %v", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+	if len(commits) > 0 {
+		res, err = json.Marshal(commits)
+		if err != nil {
+			log.Printf("marshal result data error: %v", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 	}
+
 	w.Write(res)
 }
 
