@@ -7,15 +7,17 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"strconv"
 	"time"
 
 	"github.com/go-chi/chi"
 )
 
-const port = 8090
-
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
 	r := chi.NewRouter()
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("start default router")
@@ -27,9 +29,9 @@ func main() {
 		fmt.Fprintln(w, "done")
 	})
 
-	srv := &http.Server{Addr: ":" + strconv.Itoa(port), Handler: r}
+	srv := &http.Server{Addr: ":" + port, Handler: r}
 	go func() {
-		fmt.Printf("start http server at port %d...\n", port)
+		fmt.Printf("start http server at port %s...\n", port)
 		if err := srv.ListenAndServe(); err != nil {
 			log.Printf("server error listen: %s", err)
 		}
