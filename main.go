@@ -25,7 +25,7 @@ func main() {
 
 	srv := &http.Server{Addr: ":" + port, Handler: r}
 	go func() {
-		fmt.Printf("start http server at port %s...\n", port)
+		log.Printf("start http server at port %s...\n", port)
 		if err := srv.ListenAndServe(); err != nil {
 			log.Printf("server error listen: %s", err)
 		}
@@ -42,21 +42,22 @@ func main() {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("start default router")
+	log.Print("start default router")
 
-	fmt.Printf("get request: %#v\n", r)
-	fmt.Println("method:", r.Method)
+	log.Printf("get request: %#v\n", r)
+	log.Print("method:", r.Method)
 
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintln(w, "New changes coming to server!")
 }
 
 func hookHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("start hook router")
+	log.Print("start hook router")
 
-	fmt.Printf("post request: %#v\n", r)
-	fmt.Println("method:", r.Method)
+	log.Printf("post request: %#v\n", r)
+	log.Print("method:", r.Method)
 
 	w.WriteHeader(http.StatusOK)
+	w.Header().Add("Content-Type", "application/json")
 	w.Write([]byte(`{"result":"hook handler done"}`))
 }
