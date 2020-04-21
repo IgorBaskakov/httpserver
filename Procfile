@@ -1,1 +1,1 @@
-web: bin/httpserver
+web: bin/hookreceiver

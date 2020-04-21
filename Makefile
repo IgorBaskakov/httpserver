@@ -1,10 +1,11 @@
 GO_BUILD_ENV := CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 DOCKER_BUILD=$(shell pwd)/.docker_build
-DOCKER_CMD=$(DOCKER_BUILD)/httpserver
+DOCKER_CMD=$(DOCKER_BUILD)/hookreceiver
+APP_PATH=$(shell pwd)/cmd/hookreceiver
 
 $(DOCKER_CMD): clean
 	mkdir -p $(DOCKER_BUILD)
-	$(GO_BUILD_ENV) go build -v -o $(DOCKER_CMD) .
+	$(GO_BUILD_ENV) go build -v -o $(DOCKER_CMD) $(APP_PATH)
 
 clean:
 	rm -rf $(DOCKER_BUILD)
