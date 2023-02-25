@@ -4,6 +4,6 @@ github.com/boltdb/bolt
 # github.com/go-chi/chi v4.1.1+incompatible
 ## explicit
 github.com/go-chi/chi
-# golang.org/x/sys v0.0.0-20200420163511-1957bb5e6d1f
+# golang.org/x/sys v0.1.0
 ## explicit
 golang.org/x/sys/unix
